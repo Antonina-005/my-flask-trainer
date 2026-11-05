@@ -52,7 +52,7 @@ PYTHON_DATA = {
             "render_template — показ HTML",
             "methods=[GET, POST] — включить формы",
         ],
-        "example": 'answer = request.form.get("quiz_input")',
+        "example": "answer = request.form.get('quiz_input')",
     },
     "oop": {
         "title": "Основы ООП (Подготовка к Django)",
@@ -73,7 +73,27 @@ PYTHON_DATA = {
             "TabError — смесь табов и пробелов",
             "В HTML отступы нужны для красоты",
         ],
-        "example": 'if True:\n    print("4 spaces")',
+        "example": "if True:\n    print('4 spaces')",
+    },
+    "sql": {
+        "title": "Базы данных и основы SQL (Спринт 5)",
+        "desc": "Язык запросов к базам данных. Базовый инструмент для Django.",
+        "cheat_sheet": [
+            "SELECT * FROM table; — выбрать все данные",
+            "WHERE condition — фильтрация по условию",
+            "INSERT INTO table VALUES — добавить запись",
+        ],
+        "example": "SELECT name FROM users WHERE age >= 18;",
+    },
+    "cs": {
+        "title": "Computer Science: Алгоритмы",
+        "desc": "Оценка эффективности кода и скорость его работы.",
+        "cheat_sheet": [
+            "O(1) — константное время (поиск в dict)",
+            "O(n) — линейное время (поиск в list)",
+            "Стек (Stack) — принцип LIFO (последний пришел)",
+        ],
+        "example": "user = {'id': 42}\nprint(user['id'])  # Работает за O(1)",
     },
 }
 
@@ -91,30 +111,54 @@ def topic(topic_id):
     data = PYTHON_DATA[topic_id]
     result_message = None
     user_answer = ""
+    correct_answer = ""
+
+    if topic_id == "venv":
+        correct_answer = "source venv/bin/activate"
+    elif topic_id == "github":
+        correct_answer = "git push"
+    elif topic_id == "pytest":
+        correct_answer = "pytest -v"
+    elif topic_id == "decorators":
+        correct_answer = "@wraps(func)"
+    elif topic_id == "flask-pro":
+        correct_answer = "request.form.get"
+    elif topic_id == "oop":
+        correct_answer = "self"
+    elif topic_id == "indentation":
+        correct_answer = "4"
+    elif topic_id == "sql":
+        correct_answer = "SELECT"
+    elif topic_id == "cs":
+        correct_answer = "O(1)"
 
     if request.method == "POST":
         user_answer = request.form.get("quiz_input", "").strip()
 
-        if topic_id == "venv" and user_answer == "source venv/bin/activate":
+        if topic_id == "venv" and user_answer == correct_answer:
             result_message = "🎉 Верно! Окружение активно."
-        elif topic_id == "github" and user_answer == "git push":
+        elif topic_id == "github" and user_answer == correct_answer:
             result_message = "🚀 Супер! Код улетел в облако."
         elif topic_id == "pytest" and user_answer in ["pytest", "pytest -v"]:
             result_message = "✅ Отлично! Тесты запущены."
         elif topic_id == "decorators" and (
-            "wraps" in user_answer.lower() or user_answer == "@wraps(func)"
+            "wraps" in user_answer.lower() or user_answer == correct_answer
         ):
             result_message = "🎯 Верно! Метаданные сохранены."
         elif topic_id == "flask-pro" and (
             "form.get" in user_answer or "request.form" in user_answer
         ):
             result_message = "🍦 Отлично! Забираем данные формы."
-        elif topic_id == "oop" and user_answer.lower() == "self":
+        elif topic_id == "oop" and user_answer.lower() == correct_answer:
             result_message = "🦾 Пять баллов! self привязывает метод к объекту."
-        elif topic_id == "indentation" and user_answer == "4":
+        elif topic_id == "indentation" and user_answer == correct_answer:
             result_message = "📐 Идеально! 4 пробела по PEP 8."
+        elif topic_id == "sql" and user_answer.upper() == correct_answer:
+            result_message = "🗄 Правильно! SELECT запрашивает данные из БД."
+        elif topic_id == "cs" and ("1" in user_answer or "o(1)" in user_answer.lower()):
+            result_message = "⚡️ Супер! Поиск в словаре — это мгновенный O(1)."
         else:
-            result_message = "❌ Попробуй еще раз, загляни в шпору выше!"
+            result_message = "❌ Попробуй еще раз, загляни в подсказку ниже!"
 
     return render_template(
         "topic.html",
@@ -122,6 +166,7 @@ def topic(topic_id):
         data=data,
         result_message=result_message,
         user_answer=user_answer,
+        correct_answer=correct_answer,
     )
 
 

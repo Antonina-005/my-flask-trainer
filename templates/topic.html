@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang='ru'>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <title>{{ data.title }}</title>
-    <link rel="stylesheet"
-        href="{{ url_or_path_for('static', filename='style.css') if url_or_path_for is defined else '/static/style.css' }}">
+    <link rel='stylesheet' href="/static/style.css">
 </head>
 
 <body>
-    <div class="container">
-        <a href="/" class="back-link">← Назад к темам</a>
+    <div class='container'>
+        <a href='/' class='back-link'>← Назад к темам</a>
 
         <h1>{{ data.title }}</h1>
-        <p class="desc">{{ data.desc }}</p>
+        <p class='desc'>{{ data.desc }}</p>
 
         <h2>💡 Главные фишки (Шпора):</h2>
         <ul>
@@ -24,39 +23,53 @@
 
         <h2>💻 Пример кода:</h2>
         <pre><code>{{ data.example }}</code></pre>
-
-        <div class="quiz-box">
+        <div class='quiz-box'>
             <h3>🎯 Тренажер самопроверки:</h3>
 
             {% if result_message %}
-            <p class="quiz-result"><strong>{{ result_message }}</strong></p>
+            <p class='quiz-result'><strong>{{ result_message }}</strong></p>
             {% endif %}
 
-            <form method="POST">
-                <label for="quiz_input">
+            <form method='POST'>
+                <label for='quiz_input'>
                     {% if topic_id == 'venv' %}
-                    Напиши команду для <strong>активации</strong> окружения на Mac:
+                    Напиши команду для активации окружения на Mac:
                     {% elif topic_id == 'github' %}
-                    Напиши команду для <strong>отправки (пуша)</strong> кода в ветку main:
+                    Напиши команду для отправки пуша кода в ветку main:
                     {% elif topic_id == 'pytest' %}
-                    Напиши команду для запуска тестов в <strong>подробном (-v)</strong> режиме:
+                    Напиши команду для запуска тестов в подробном -v режиме:
                     {% elif topic_id == 'decorators' %}
                     Какой декоратор из модуля functools сохраняет имя исходной функции?
                     {% elif topic_id == 'flask-pro' %}
                     Какая конструкция вытаскивает данные из POST-формы во Flask?
+                    {% elif topic_id == 'oop' %}
+                    Какой ключевой аргумент принято писать первым внутри методов класса для ссылки на сам объект?
                     {% elif topic_id == 'indentation' %}
-                    Сколько <strong>пробелов</strong> принято использовать для одного отступа в Python?
+                    Сколько пробелов принято использовать для одного отступа в Python?
+                    {% elif topic_id == 'sql' %}
+                    Какое ключевое слово используется в SQL для выбора и получения данных из таблицы?
+                    {% elif topic_id == 'cs' %}
+                    Какова временная сложность О-нотация для поиска элемента в словаре по ключу?
                     {% else %}
                     Введи команду по этой теме:
                     {% endif %}
                 </label>
                 <br><br>
-                <input type="text" id="quiz_input" name="quiz_input" value="{{ user_answer }}"
-                    placeholder="Введи код здесь..."
-                    style="width: 80%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
-                <button type="submit"
-                    style="padding: 10px 20px; background: #dd6b20; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Проверить</button>
+                <input type='text' id='quiz_input' name='quiz_input' value='{{ user_answer }}'
+                    placeholder='Введи код здесь...'
+                    style='width: 80%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;'>
+                <button type='submit'
+                    style='padding: 10px 20px; background: #dd6b20; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;'>Проверить</button>
             </form>
+
+            <br>
+            <details style='margin-top: 15px; cursor: pointer; color: #718096;'>
+                <summary style='font-weight: bold; color: #3182ce;'>Посмотреть правильный ответ</summary>
+                <div
+                    style='margin-top: 10px; padding: 10px; background: #edf2f7; border-radius: 6px; color: #2d3748; font-family: monospace;'>
+                    <strong>Правильный ответ:</strong> {{ correct_answer }}
+                </div>
+            </details>
         </div>
     </div>
 </body>
