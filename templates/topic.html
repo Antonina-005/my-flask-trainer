@@ -25,11 +25,9 @@
         <h2>💻 Пример кода:</h2>
         <pre><code>{{ data.example }}</code></pre>
 
-        <!-- Место под будущую проверку знаний -->
         <div class="quiz-box">
             <h3>🎯 Тренажер самопроверки:</h3>
 
-            <!-- Если Flask вернул сообщение с результатом, показываем его -->
             {% if result_message %}
             <p class="quiz-result"><strong>{{ result_message }}</strong></p>
             {% endif %}
@@ -42,6 +40,12 @@
                     Напиши команду для <strong>отправки (пуша)</strong> кода в ветку main:
                     {% elif topic_id == 'pytest' %}
                     Напиши команду для запуска тестов в <strong>подробном (-v)</strong> режиме:
+                    {% elif topic_id == 'decorators' %}
+                    Какой декоратор из модуля functools сохраняет имя исходной функции?
+                    {% elif topic_id == 'flask-pro' %}
+                    Какая конструкция вытаскивает данные из POST-формы во Flask?
+                    {% elif topic_id == 'indentation' %}
+                    Сколько <strong>пробелов</strong> принято использовать для одного отступа в Python?
                     {% else %}
                     Введи команду по этой теме:
                     {% endif %}
