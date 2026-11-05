@@ -68,4 +68,5 @@ def topic(topic_id):
     return render_template('topic.html', topic_id=topic_id, data=data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Теперь сайт будет жить на порту 8080
+    app.run(debug=True, port=8080)
