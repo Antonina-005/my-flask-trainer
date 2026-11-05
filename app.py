@@ -52,7 +52,7 @@ PYTHON_DATA = {
             "render_template — показ HTML",
             "methods=[GET, POST] — включить формы",
         ],
-        "example": "answer = request.form.get('quiz_input')",
+        "example": 'answer = request.form.get("quiz_input")',
     },
     "oop": {
         "title": "Основы ООП (Подготовка к Django)",
@@ -93,7 +93,17 @@ PYTHON_DATA = {
             "O(n) — линейное время (поиск в list)",
             "Стек (Stack) — принцип LIFO (последний пришел)",
         ],
-        "example": "user = {'id': 42}\nprint(user['id'])  # Работает за O(1)",
+        "example": 'user = {"id": 42}\nprint(user["id"])  # Работает за O(1)',
+    },
+    "type_hinting": {
+        "title": "Аннотация типов (Type Hinting)",
+        "desc": "Подсказки для разработчика и линтеров, какие типы данных ожидает и возвращает функция.",
+        "cheat_sheet": [
+            "def calc(a: int, b: int) -> int: — синтаксический сахар для типов",
+            "Помогает VS Code мгновенно подсвечивать ошибки до запуска кода",
+            "В Django аннотации типов сильно упрощают работу с большими проектами",
+        ],
+        "example": 'def greet(name: str) -> str:\n    return "Привет, " + name',
     },
 }
 
@@ -131,6 +141,8 @@ def topic(topic_id):
         correct_answer = "SELECT"
     elif topic_id == "cs":
         correct_answer = "O(1)"
+    elif topic_id == "type_hinting":
+        correct_answer = "->"
 
     if request.method == "POST":
         user_answer = request.form.get("quiz_input", "").strip()
@@ -157,6 +169,14 @@ def topic(topic_id):
             result_message = "🗄 Правильно! SELECT запрашивает данные из БД."
         elif topic_id == "cs" and ("1" in user_answer or "o(1)" in user_answer.lower()):
             result_message = "⚡️ Супер! Поиск в словаре — это мгновенный O(1)."
+        elif topic_id == "type_hinting":
+            correct = "->"
+            if correct in user_answer:
+                result_message = (
+                    "⚡️ Точно! Стрелочка указывает тип возвращаемого значения функции."
+                )
+            else:
+                result_message = f"❌ Попробуй еще раз. Каким символом (стрелочкой) обозначается возвращаемый тип функции? Ответ: {correct}"
         else:
             result_message = "❌ Попробуй еще раз, загляни в подсказку ниже!"
 
