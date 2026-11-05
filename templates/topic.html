@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.title }}</title>
+    <link rel="stylesheet"
+        href="{{ url_or_path_for('static', filename='style.css') if url_or_path_for is defined else '/static/style.css' }}">
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Назад к темам</a>
+
+        <h1>{{ data.title }}</h1>
+        <p class="desc">{{ data.desc }}</p>
+
+        <h2>💡 Главные фишки (Шпора):</h2>
+        <ul>
+            {% for cheat in data.cheat_sheet %}
+            <li><code>{{ cheat }}</code></li>
+            {% endfor %}
+        </ul>
+
+        <h2>💻 Пример кода:</h2>
+        <pre><code>{{ data.example }}</code></pre>
+
+        <!-- Место под будущую проверку знаний -->
+        <div class="quiz-box">
+            <h3>🎯 Тренажер самопроверки:</h3>
+            <p>Здесь мы на следующем шаге сделаем интерактивный мини-тест или поле ввода кода!</p>
+        </div>
+    </div>
+</body>
+
+</html>

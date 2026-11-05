@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Python Тренажер</title>
+    <link rel="stylesheet"
+        href="{{ url_or_path_for('static', filename='style.css') if url_or_path_for is defined else '/static/style.css' }}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Подключаем логотип из папки static -->
+        <img src="{{ url_or_path_for('static', filename='python-logo.png') if url_or_path_for is defined else '/static/python-logo.png' }}"
+            alt="Python Logo" width="80">
+        <h1>🐍 Мой интерактивный тренажер Python</h1>
+        <p>Выбери тему, чтобы открыть шпаргалку и запустить проверку знания фишек:</p>
+
+        <div class="menu">
+            {% for id, info in topics.items() %}
+            <a href="/topic/{{ id }}" class="menu-item">
+                <h3>{{ info.title }}</h3>
+                <p>{{ info.desc }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
