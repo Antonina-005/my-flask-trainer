@@ -1,4 +1,4 @@
-from flask import Flask, abort, render_template  # type: ignore
+from flask import Flask, abort, render_template, request  # type: ignore  # noqa: F401, RUF100
 
 app = Flask(__name__)
 
@@ -58,14 +58,51 @@ def index():
     return render_template('index.html', topics=PYTHON_DATA)
 
 # 2. Динамическая страница для каждой темы
-@app.route('/topic/<topic_id>')
+@app.route('/topic/<topic_id>', methods=['GET', 'POST'])
 def topic(topic_id):
-    # Если такой темы нет в словаре, вернем ошибку 404
     if topic_id not in PYTHON_DATA:
         abort(404)
     
     data = PYTHON_DATA[topic_id]
-    return render_template('topic.html', topic_id=topic_id, data=data)
+    result_message = None
+    user_answer = ""
+    
+    # Сюда мы попадем, когда ты нажмешь кнопку "Проверить" на сайте
+    if request.method == 'POST':
+        user_answer = request.form.get('quiz_input', '').strip()
+        
+        # Простая логика проверки для каждой темы
+        if topic_id == 'venv':
+            correct = "source venv/bin/activate"
+            if user_answer == correct:
+                result_message = "🎉 Абсолютно верно! Окружение активировано."
+            else:
+                result_message = f"❌ Не совсем так. Правильный ответ: {correct}"
+                
+        elif topic_id == 'github':
+            correct = "git push"
+            if user_answer == correct:
+                result_message = "🚀 Супер! Код улетел в облако."
+            else:
+                result_message = f"❌ Ошибка в синтаксисе. Попробуй: {correct}"
+                
+        elif topic_id == 'pytest':
+            correct = "pytest -v"
+            if user_answer in ["pytest", "pytest -v"]:
+                result_message = "✅ Отлично! Тесты запущены."
+            else:
+                result_message = "❌ Линтер недоволен. Введи 'pytest' или 'pytest -v'"
+                
+        else:
+            result_message = "👍 Спасибо за ответ! Тренажер для этой темы в разработке."
+
+    return render_template(
+        'topic.html', 
+        topic_id=topic_id, 
+        data=data, 
+        result_message=result_message,
+        user_answer=user_answer
+    )
 
 if __name__ == '__main__':
     # Теперь сайт будет жить на порту 8080

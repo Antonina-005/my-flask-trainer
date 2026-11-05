@@ -28,7 +28,31 @@
         <!-- Место под будущую проверку знаний -->
         <div class="quiz-box">
             <h3>🎯 Тренажер самопроверки:</h3>
-            <p>Здесь мы на следующем шаге сделаем интерактивный мини-тест или поле ввода кода!</p>
+
+            <!-- Если Flask вернул сообщение с результатом, показываем его -->
+            {% if result_message %}
+            <p class="quiz-result"><strong>{{ result_message }}</strong></p>
+            {% endif %}
+
+            <form method="POST">
+                <label for="quiz_input">
+                    {% if topic_id == 'venv' %}
+                    Напиши команду для <strong>активации</strong> окружения на Mac:
+                    {% elif topic_id == 'github' %}
+                    Напиши команду для <strong>отправки (пуша)</strong> кода в ветку main:
+                    {% elif topic_id == 'pytest' %}
+                    Напиши команду для запуска тестов в <strong>подробном (-v)</strong> режиме:
+                    {% else %}
+                    Введи команду по этой теме:
+                    {% endif %}
+                </label>
+                <br><br>
+                <input type="text" id="quiz_input" name="quiz_input" value="{{ user_answer }}"
+                    placeholder="Введи код здесь..."
+                    style="width: 80%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                <button type="submit"
+                    style="padding: 10px 20px; background: #dd6b20; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Проверить</button>
+            </form>
         </div>
     </div>
 </body>
